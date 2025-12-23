@@ -117,15 +117,17 @@ const Index = () => {
       const nextEpisode = list.find((e) => e.id === state.playEpisodeId) ?? null;
       if (nextEpisode) {
         setCurrentEpisode(nextEpisode);
+        setProgress(nextEpisode.progress || 0);
       }
       if (state.channel) setChannel(state.channel);
-      // Don't auto-start audio when coming from an episode selection
-      recapAudio.pause();
+      // Don’t auto-start TTS when coming from an episode selection
+      setIsPlaying(false);
+      stopTts();
     }
 
     // Clear navigation state so refresh/back doesn't repeatedly re-trigger.
     navigate(".", { replace: true, state: null });
-  }, [location.state, navigate, recapAudio]);
+  }, [location.state, navigate]);
 
   const openOriginalUrl = useCallback(() => {
     // Open the original URL directly (same behavior as the ExternalLink button).
