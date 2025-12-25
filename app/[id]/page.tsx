@@ -229,6 +229,7 @@ export default function NewsletterPage() {
         }, 200);
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentIndex, screenHeight, newsletterTitle]);
 
   const handleViewFullIssue = () => {
@@ -415,6 +416,7 @@ export default function NewsletterPage() {
         setShowPlaybackControls(true);
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newsletter]);
 
   // Auto-generate summary for the first article on mount
@@ -447,6 +449,7 @@ export default function NewsletterPage() {
       .finally(() => {
         setIsGeneratingNewsletter(false);
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Export function for external use (e.g., from conversation)
@@ -455,6 +458,7 @@ export default function NewsletterPage() {
     if (typeof window !== 'undefined') {
       (window as any).generateNewsletterAudio = handleNewsletterGenerate;
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Start Playback (Unified)
@@ -702,6 +706,7 @@ export default function NewsletterPage() {
         audioRef.current.src = "";
       }
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Touch handlers for mobile swipe
@@ -843,7 +848,7 @@ export default function NewsletterPage() {
         wheelDeltaSum = 0;
       };
     }
-  }, []);
+  }, [articles.length]);
 
   // Render loading state (AFTER all hooks)
   if (loading || !newsletter) {
