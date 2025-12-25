@@ -20,16 +20,18 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-# Install serve globally for serving static files
-RUN npm install -g serve
+# Copy package files for installing production dependencies
+COPY --from=builder /app/package*.json ./
 
-# Copy built files from builder stage
-COPY --from=builder /app/dist ./dist
+# Install only production dependencies
+RUN npm install --only=production --legacy-peer-deps
+
+# Copy built application
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/public ./public
 
 # Expose port 3000
 EXPOSE 3000
 
-# Start the application with serve
-# -s flag enables SPA mode (redirects all routes to index.html)
-# -l 3000 sets the port
-CMD ["serve", "-s", "dist", "-l", "3000"]
+# Start the application using Next.js start command
+CMD ["npm", "start"]
