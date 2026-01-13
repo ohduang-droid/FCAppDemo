@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { Phone, MapPin, Mail, ChevronRight } from 'lucide-react';
 
 interface Advisor {
   id: string;
@@ -112,7 +113,7 @@ export default function AdvisorsPage() {
       try {
         const response = await fetch('/api/advisors');
         const data = await response.json();
-        
+
         if (data.advisors) {
           setAdvisors(data.advisors);
           setFilteredAdvisors(data.advisors);
@@ -136,13 +137,13 @@ export default function AdvisorsPage() {
     }
 
     if (filters.language !== 'Any Language') {
-      filtered = filtered.filter(advisor => 
+      filtered = filtered.filter(advisor =>
         advisor.languages?.includes(filters.language)
       );
     }
 
     if (filters.specialty !== 'Any Specialties') {
-      filtered = filtered.filter(advisor => 
+      filtered = filtered.filter(advisor =>
         advisor.specialties?.includes(filters.specialty)
       );
     }
@@ -151,7 +152,7 @@ export default function AdvisorsPage() {
     // 如果需要可以后续添加
 
     if (filters.agentName.trim()) {
-      filtered = filtered.filter(advisor => 
+      filtered = filtered.filter(advisor =>
         advisor.name.toLowerCase().includes(filters.agentName.toLowerCase())
       );
     }
@@ -259,7 +260,7 @@ export default function AdvisorsPage() {
             className="fixed inset-0 bg-black/50 z-40 transition-opacity"
             onClick={() => setShowFilterPanel(false)}
           />
-          
+
           {/* Filter Panel */}
           <div
             className="fixed top-0 right-0 h-full w-full max-w-md bg-[#001E3F] z-50 transform transition-transform duration-300 ease-out shadow-2xl"
@@ -277,7 +278,7 @@ export default function AdvisorsPage() {
                   aria-label="Close"
                 >
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </button>
               </div>
@@ -298,7 +299,7 @@ export default function AdvisorsPage() {
                         {tempFilters.office === 'Any Office' ? 'Select' : tempFilters.office}
                       </span>
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                        <path d="M9 18L15 12L9 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400"/>
+                        <path d="M9 18L15 12L9 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400" />
                       </svg>
                     </div>
                   </div>
@@ -308,11 +309,10 @@ export default function AdvisorsPage() {
                         <button
                           key={office}
                           onClick={() => handleOfficeSelect(office)}
-                          className={`w-full text-left px-3 py-2 rounded text-sm transition-colors ${
-                            tempFilters.office === office
+                          className={`w-full text-left px-3 py-2 rounded text-sm transition-colors ${tempFilters.office === office
                               ? 'bg-white/20 text-white'
                               : 'text-gray-300 hover:bg-white/10'
-                          }`}
+                            }`}
                         >
                           {office}
                         </button>
@@ -335,7 +335,7 @@ export default function AdvisorsPage() {
                         {tempFilters.language === 'Any Language' ? 'Select' : tempFilters.language}
                       </span>
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                        <path d="M9 18L15 12L9 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400"/>
+                        <path d="M9 18L15 12L9 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400" />
                       </svg>
                     </div>
                   </div>
@@ -345,11 +345,10 @@ export default function AdvisorsPage() {
                         <button
                           key={lang}
                           onClick={() => handleLanguageSelect(lang)}
-                          className={`w-full text-left px-3 py-2 rounded text-sm transition-colors ${
-                            tempFilters.language === lang
+                          className={`w-full text-left px-3 py-2 rounded text-sm transition-colors ${tempFilters.language === lang
                               ? 'bg-white/20 text-white'
                               : 'text-gray-300 hover:bg-white/10'
-                          }`}
+                            }`}
                         >
                           {lang}
                         </button>
@@ -372,7 +371,7 @@ export default function AdvisorsPage() {
                         {tempFilters.specialty === 'Any Specialties' ? 'Select' : tempFilters.specialty}
                       </span>
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                        <path d="M9 18L15 12L9 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400"/>
+                        <path d="M9 18L15 12L9 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400" />
                       </svg>
                     </div>
                   </div>
@@ -382,11 +381,10 @@ export default function AdvisorsPage() {
                         <button
                           key={spec}
                           onClick={() => handleDesignationSelect(spec)}
-                          className={`w-full text-left px-3 py-2 rounded text-sm transition-colors ${
-                            tempFilters.specialty === spec
+                          className={`w-full text-left px-3 py-2 rounded text-sm transition-colors ${tempFilters.specialty === spec
                               ? 'bg-white/20 text-white'
                               : 'text-gray-300 hover:bg-white/10'
-                          }`}
+                            }`}
                         >
                           {spec}
                         </button>
@@ -409,7 +407,7 @@ export default function AdvisorsPage() {
                         {tempFilters.group === 'Any' ? 'Select' : tempFilters.group}
                       </span>
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                        <path d="M9 18L15 12L9 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400"/>
+                        <path d="M9 18L15 12L9 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-gray-400" />
                       </svg>
                     </div>
                   </div>
@@ -419,11 +417,10 @@ export default function AdvisorsPage() {
                         <button
                           key={group}
                           onClick={() => handleGroupSelect(group)}
-                          className={`w-full text-left px-3 py-2 rounded text-sm transition-colors ${
-                            tempFilters.group === group
+                          className={`w-full text-left px-3 py-2 rounded text-sm transition-colors ${tempFilters.group === group
                               ? 'bg-white/20 text-white'
                               : 'text-gray-300 hover:bg-white/10'
-                          }`}
+                            }`}
                         >
                           {group}
                         </button>
@@ -482,93 +479,76 @@ export default function AdvisorsPage() {
             {filteredAdvisors.map((advisor) => (
               <div
                 key={advisor.id}
-                className="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-md transition-shadow cursor-pointer"
+                className="bg-white rounded-lg border border-gray-100 overflow-hidden shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-lg transition-shadow cursor-pointer"
               >
-                <div className="flex">
-                  {/* Image/Avatar - Left side */}
-                  <div className="flex-shrink-0 w-32 h-32 sm:w-36 sm:h-36" style={{ marginTop: '20px' }}>
+                <div className="flex h-32 sm:h-36">
+                  {/* Image/Avatar - Left side (Full height of card) */}
+                  <div className="flex-shrink-0 w-28 sm:w-32 h-full relative">
                     {advisor.image ? (
                       <img
                         src={advisor.image}
                         alt={advisor.name}
-                        className="w-full h-full object-cover rounded-lg"
+                        className="w-full h-full object-cover"
                         onError={(e) => {
-                          // 如果图片加载失败，显示首字母占位符
                           const target = e.target as HTMLImageElement;
                           target.style.display = 'none';
-                          const parent = target.parentElement;
-                          if (parent) {
-                            parent.innerHTML = `
-                              <div class="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center rounded-lg">
-                                <span class="text-gray-500 text-3xl font-bold" style="line-height: 1;">${advisor.name.charAt(0)}</span>
-                              </div>
-                            `;
-                          }
+                          target.nextElementSibling?.classList.remove('hidden');
                         }}
                       />
-                    ) : (
-                      <div className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center rounded-lg">
-                        <span className="text-gray-500 text-3xl font-bold" style={{ lineHeight: '1' }}>
-                          {advisor.name.charAt(0)}
-                        </span>
-                      </div>
-                    )}
+                    ) : null}
+                    {/* Fallback container (hidden by default if image loads) or always visible if no image */}
+                    <div className={`w-full h-full bg-[#F0F0F0] flex items-center justify-center absolute inset-0 ${advisor.image ? 'hidden' : ''}`}>
+                      <span className="text-gray-400 text-2xl font-serif-luxury italic">
+                        {advisor.name.charAt(0)}
+                      </span>
+                    </div>
                   </div>
 
                   {/* Info - Right side */}
-                  <div className="flex-1 min-w-0 p-3 sm:p-4 flex flex-col justify-between">
-                    <div>
-                      {/* Name */}
-                      <h3 className="text-base sm:text-lg font-semibold mb-1 line-clamp-1" style={{ color: '#BD8A52' }}>
-                        {advisor.name}
-                      </h3>
-                      
-                      {/* Title */}
-                      <p className="text-sm text-gray-600 mb-1.5 line-clamp-1">
-                        {advisor.title}
-                      </p>
-                      
-                      {/* Office */}
-                      <p className="text-xs text-gray-500 mb-3">
-                        {advisor.office}
-                      </p>
+                  <div className="flex-1 min-w-0 p-3 sm:p-4 flex flex-col justify-center relative">
 
-                      {/* Phone Info */}
-                      {advisor.phone && (
-                        <div className="mb-3 space-y-1">
-                          <a
-                            href={`tel:${advisor.phone}`}
-                            className="text-xs text-[#001E3F] hover:underline inline-block"
-                            onClick={(e) => e.stopPropagation()}
-                            style={{ lineHeight: '1.5', minHeight: 'auto', minWidth: 'auto' }}
-                          >
-                            <span style={{ color: '#BD8A52' }}>Phone:</span> {advisor.phone}
-                          </a>
-                          <br />
-                          <a
-                            href={`tel:${advisor.phone}`}
-                            className="text-xs text-[#001E3F] hover:underline inline-block"
-                            onClick={(e) => e.stopPropagation()}
-                            style={{ lineHeight: '1.5', minHeight: 'auto', minWidth: 'auto' }}
-                          >
-                            <span style={{ color: '#BD8A52' }}>Cell:</span> {advisor.phone}
-                          </a>
-                        </div>
-                      )}
+                    {/* Header Row: Name & Button */}
+                    <div className="flex justify-between items-start mb-1">
+                      <div>
+                        <h3 className="text-base sm:text-lg font-bold text-[#002349] font-serif-luxury line-clamp-1">
+                          {advisor.name}
+                        </h3>
+                        <p className="text-xs text-gray-500 line-clamp-1 font-medium tracking-wide text-gray-400">
+                          {advisor.title}
+                        </p>
+                      </div>
 
-                      {/* Contact me Button */}
+                      {/* Contact Button (Top Right) */}
                       <button
-                        className="text-xs px-3 py-1.5 text-white rounded-md transition-colors w-fit"
-                        style={{ backgroundColor: '#BD8A52' }}
-                        onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#a67a47'}
-                        onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#BD8A52'}
+                        className="flex items-center gap-1 px-2 py-1 rounded border border-[#B89B5E] text-[#B89B5E] text-[10px] uppercase tracking-wider hover:bg-[#B89B5E] hover:text-white transition-colors"
                         onClick={(e) => {
                           e.stopPropagation();
                           setShowContactModal(true);
                         }}
                       >
-                        Contact me
+                        <Mail className="w-3 h-3" />
+                        <span>Contact</span>
                       </button>
+                    </div>
+
+                    <div className="space-y-1.5 mt-2">
+                      {/* Office */}
+                      <div className="flex items-center gap-1.5 text-xs text-gray-500">
+                        <MapPin className="w-3.5 h-3.5 text-[#B89B5E] flex-shrink-0" />
+                        <span className="line-clamp-1">{advisor.office}</span>
+                      </div>
+
+                      {/* Phone */}
+                      {advisor.phone && (
+                        <a
+                          href={`tel:${advisor.phone}`}
+                          className="flex items-center gap-1.5 text-xs text-[#002349] hover:underline w-fit"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <Phone className="w-3.5 h-3.5 text-[#B89B5E] flex-shrink-0" />
+                          <span>{advisor.phone}</span>
+                        </a>
+                      )}
                     </div>
                   </div>
                 </div>
