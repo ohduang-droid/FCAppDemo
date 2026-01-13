@@ -35,7 +35,7 @@ const staticNewsletterData: NewsletterData = {
   time: '2025年1月',
   annualPrice: '¥500/年',
   monthlyPrice: '¥50/月',
-  ctaText: '查看完整内容',
+  ctaText: 'Find an advisor',
   benefits: [
     '精美的艺术品冰箱贴收藏',
     '定期更新的限量版设计',
@@ -199,11 +199,7 @@ export default function FlowMagnets() {
   }, [currentIndex, screenHeight, newsletterTitle]);
 
   const handleViewFullIssue = () => {
-    if (isSubscribed) {
-      setShowArticleContent(true);
-    } else {
-      setShowSubscriptionModal(true);
-    }
+    router.push('/advisors');
   };
 
   const handleSubscribe = async () => {
@@ -678,8 +674,10 @@ export default function FlowMagnets() {
                         <div className="flex justify-end mb-5 sm:mb-8 mt-8 sm:mt-10 -mx-3 sm:-mx-4">
                           <button
                             onClick={handleViewFullIssue}
-                            className="bg-red-600 text-white py-2.5 sm:py-3 px-4 sm:px-6 rounded-none font-bold text-lg sm:text-xl hover:bg-red-700 transition-colors touch-manipulation w-full h-[82px] font-atlantic-condensed flex items-center justify-center gap-2"
-                            style={{ fontFamily: 'Atlantic Condensed, Georgia, serif' }}
+                            className="text-white py-2.5 sm:py-3 px-4 sm:px-6 rounded-none font-bold text-lg sm:text-xl transition-colors touch-manipulation w-full h-[82px] font-atlantic-condensed flex items-center justify-center gap-2"
+                            style={{ fontFamily: 'Atlantic Condensed, Georgia, serif', backgroundColor: '#001E3F' }}
+                            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#002a5c'}
+                            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#001E3F'}
                           >
                             <span>{newsletter.ctaText || '查看完整内容'}</span>
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="sm:w-6 sm:h-6">

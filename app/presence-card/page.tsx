@@ -22,6 +22,13 @@ const staticNewsletterData: NewsletterData = {
   templateKey: 'presence-card',
   title: '数字名片\n连接未来\n商务社交',
   author: 'Presence Card',
+  // 个人信息数据
+  personInfo: {
+    name: 'John Smith',
+    title: 'Senior Real Estate Advisor',
+    company: 'Briggs Freeman Sotheby\'s',
+    location: 'Dallas, TX'
+  } as any,
   content: '<p>数字名片是未来商务社交的新方式。通过数字名片，您可以轻松分享联系信息、社交媒体链接、公司介绍等，让商务交流更加高效便捷。</p><p>我们的数字名片平台支持多种展示方式，包括二维码、链接分享、NFC触碰等。无论您身在何处，都能快速建立商务联系。</p><h2>核心功能</h2><p>数字名片不仅包含传统的联系信息，还支持多媒体内容展示。您可以添加个人照片、公司Logo、产品介绍视频等，让您的名片更加生动有趣。</p><h2>使用场景</h2><ul><li>商务会议 - 快速交换联系方式，无需纸质名片</li><li>展会活动 - 通过二维码快速收集潜在客户信息</li><li>线上社交 - 在社交媒体和邮件签名中分享数字名片</li><li>团队协作 - 统一管理团队成员的数字名片</li></ul>',
   contentRichText: [
     {
@@ -79,6 +86,8 @@ export default function PresenceCard() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const audioUnlockedRef = useRef(false);
   const [showAudioUnlockPrompt, setShowAudioUnlockPrompt] = useState(false);
+  const [showContactModal, setShowContactModal] = useState(false);
+  const [showWelcomePage, setShowWelcomePage] = useState(true);
 
   // Create article array from static data
   const articles = [{
@@ -226,6 +235,15 @@ export default function PresenceCard() {
 
   const handleCloseAudioPlayer = () => {
     setShowAudioPlayer(false);
+  };
+
+  const handleContactClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setShowContactModal(true);
+  };
+
+  const handleCloseContactModal = () => {
+    setShowContactModal(false);
   };
 
   // Handle explicit audio unlock tap - iOS Safari requires this
@@ -583,8 +601,54 @@ export default function PresenceCard() {
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
-      {/* Conditional rendering: Show article content or magnet view */}
-      {showArticleContent ? (
+      {/* Welcome Page */}
+      {showWelcomePage ? (
+        <div className="flex-1 flex flex-col items-center justify-center px-6 py-8">
+          {/* Avatar */}
+          <div className="flex-shrink-0 w-24 h-24 sm:w-[120px] sm:h-[120px] mb-6">
+            <div className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 rounded-full flex items-center justify-center">
+              <span className="text-gray-500 text-2xl sm:text-3xl font-bold">
+                {(newsletter as any).personInfo?.name?.charAt(0) || 'J'}
+              </span>
+            </div>
+          </div>
+
+          {/* User Info */}
+          <div className="text-center mb-6">
+            <h2 className="text-2xl sm:text-3xl font-bold mb-2" style={{ color: '#BD8A52', fontFamily: 'Atlantic Condensed, Georgia, serif' }}>
+              {(newsletter as any).personInfo?.name || 'John Smith'}
+            </h2>
+            <p className="text-base sm:text-lg text-gray-600 mb-1">
+              {(newsletter as any).personInfo?.title || 'Senior Real Estate Advisor'}
+            </p>
+            <p className="text-sm sm:text-base text-gray-500">
+              {(newsletter as any).personInfo?.company || 'Briggs Freeman Sotheby\'s'}
+            </p>
+          </div>
+
+          {/* Introduction */}
+          <div className="text-center mb-8 max-w-md">
+            <p className="text-base sm:text-lg text-gray-700 leading-relaxed" style={{ fontFamily: 'Georgia, serif' }}>
+              您好！我是 {(newsletter as any).personInfo?.name || 'John Smith'}，很高兴认识您。我专注于房地产咨询领域，致力于为客户提供专业的服务和解决方案。期待与您建立联系，共同探讨合作机会。
+            </p>
+          </div>
+
+          {/* Next Button */}
+          <button
+            onClick={() => setShowWelcomePage(false)}
+            className="w-full max-w-xs bg-[#001E3F] text-white py-3 sm:py-4 px-6 sm:px-8 rounded-none font-bold text-lg sm:text-xl transition-colors touch-manipulation font-atlantic-condensed flex items-center justify-center gap-2 hover:bg-[#002a5c]"
+            style={{ fontFamily: 'Atlantic Condensed, Georgia, serif' }}
+          >
+            <span>下一步</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="sm:w-6 sm:h-6">
+              <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
+        </div>
+      ) : (
+        <>
+          {/* Conditional rendering: Show article content or magnet view */}
+          {showArticleContent ? (
         /* Article Content View */
         <div className="flex-1 overflow-y-auto px-3 sm:px-4 pb-6">
           <div className="max-w-none w-full pt-3 sm:pt-4">
@@ -639,51 +703,47 @@ export default function PresenceCard() {
                   >
                     <div className="flex-1 overflow-y-auto px-3 sm:px-4 pb-safe">
                       <div className="max-w-none w-full pt-3 sm:pt-4 pb-24">
-                        {/* Main headline */}
-                        <h1
-                          ref={(el) => { titleRefs.current[article.id] = el; }}
-                          className="font-bold mb-4 sm:mb-5 leading-tight text-black text-center font-atlantic-condensed"
-                          style={{
-                            fontFamily: 'Atlantic Condensed, Georgia, serif',
-                            fontSize: titleFontSizes[article.id]
-                              ? `${titleFontSizes[article.id]}pt`
-                              : '32pt',
-                            visibility: titleFontSizes[article.id] ? 'visible' : 'visible',
-                            opacity: titleFontSizes[article.id] ? '1' : '1'
-                          }}
-                        >
-                          {newsletter.title.split('\n').map((line, i) => (
-                            <span key={i}>
-                              {line}
-                              {i < newsletter.title.split('\n').length - 1 && <br />}
+                        {/* Avatar */}
+                        <div className="flex-shrink-0 w-24 h-24 sm:w-[120px] sm:h-[120px] mx-auto mb-4">
+                          <div className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-300 rounded-full flex items-center justify-center">
+                            <span className="text-gray-500 text-2xl sm:text-3xl font-bold">
+                              {(newsletter as any).personInfo?.name?.charAt(0) || 'J'}
                             </span>
-                          ))}
-                        </h1>
-                        {/* Author and date */}
-                        <div className="flex flex-col items-center mb-2 gap-2">
-                          <Link
-                            href={`/channel/${slugify(newsletter.author)}`}
-                            className="text-sm sm:text-base text-gray-600 break-words text-center hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-gray-900 focus-visible:outline-offset-2"
-                            style={{ fontFamily: 'Georgia, serif' }}
-                            aria-label={`View channel for ${newsletter.author}`}
-                          >
-                            作者：{newsletter.author}
-                          </Link>
-                          <p className="text-[10px] sm:text-xs text-gray-500 uppercase tracking-wider text-center">
-                            {newsletter.time}
-                          </p>
+                          </div>
+                        </div>
+                        
+                        {/* Personal Info Section */}
+                        <div className="flex items-center justify-center mb-4 gap-3 px-2">
+                          {/* Info */}
+                          <div className="text-center">
+                            <h3 className="text-base sm:text-lg font-semibold mb-0.5" style={{ color: '#BD8A52' }}>
+                              {(newsletter as any).personInfo?.name || 'John Smith'}
+                            </h3>
+                            <p className="text-xs sm:text-sm text-gray-600 mb-0.5">
+                              {(newsletter as any).personInfo?.title || 'Senior Real Estate Advisor'}
+                            </p>
+                            <p className="text-xs sm:text-sm text-gray-600 mb-0.5">
+                              {(newsletter as any).personInfo?.company || 'Briggs Freeman Sotheby\'s'}
+                            </p>
+                            <p className="text-xs text-gray-500">
+                              {(newsletter as any).personInfo?.location || 'Dallas, TX'}
+                            </p>
+                          </div>
                         </div>
 
                         {/* Button */}
                         <div className="flex justify-end mb-5 sm:mb-8 mt-8 sm:mt-10 -mx-3 sm:-mx-4">
                           <button
                             onClick={handleViewFullIssue}
-                            className="bg-red-600 text-white py-2.5 sm:py-3 px-4 sm:px-6 rounded-none font-bold text-lg sm:text-xl hover:bg-red-700 transition-colors touch-manipulation w-full h-[82px] font-atlantic-condensed flex items-center justify-center gap-2"
-                            style={{ fontFamily: 'Atlantic Condensed, Georgia, serif' }}
+                            className="text-white py-2.5 sm:py-3 px-4 sm:px-6 rounded-none font-bold text-lg sm:text-xl transition-colors touch-manipulation w-full h-[82px] font-atlantic-condensed flex items-center justify-center gap-2"
+                            style={{ fontFamily: 'Atlantic Condensed, Georgia, serif', backgroundColor: '#001E3F' }}
+                            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#002a5c'}
+                            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#001E3F'}
                           >
-                            <span>{newsletter.ctaText || '查看完整内容'}</span>
+                            <span onClick={handleContactClick}>Contact me</span>
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="sm:w-6 sm:h-6">
-                              <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                              <polyline points="22,6 12,13 2,6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
                           </button>
                         </div>
@@ -712,8 +772,8 @@ export default function PresenceCard() {
         </>
       )}
 
-      {/* Bottom playback controls - only show in magnet view */}
-      {showPlaybackControls && !showArticleContent && (
+      {/* Bottom playback controls - only show in magnet view - hidden on welcome page */}
+      {showPlaybackControls && !showArticleContent && !showWelcomePage && (
         <div className="fixed bottom-0 left-0 right-0 w-full max-w-md mx-auto px-3 sm:px-4 bg-white pb-[max(1rem,env(safe-area-inset-bottom))] pt-2 z-50">
           <div className="h-0.5 bg-gray-200 mb-2 sm:mb-3">
             <div
@@ -783,9 +843,11 @@ export default function PresenceCard() {
           </div>
         </div>
       )}
+        </>
+      )}
 
       {/* Audio Unlock Prompt */}
-      {showAudioUnlockPrompt && !showArticleContent && (
+      {showAudioUnlockPrompt && !showArticleContent && !showWelcomePage && (
         <div
           className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm"
           onClick={handleAudioUnlockTap}
@@ -855,6 +917,29 @@ export default function PresenceCard() {
           }}
           onError={(e) => console.error("Audio element error:", e)}
         />
+      )}
+
+      {/* Contact Modal */}
+      {showContactModal && (
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm"
+          onClick={handleCloseContactModal}
+        >
+          <div
+            className="bg-white rounded-2xl px-8 py-6 shadow-2xl max-w-sm mx-4"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <p className="text-lg font-semibold text-gray-900 text-center">
+              Got it — I&apos;ll be in touch soon.
+            </p>
+            <button
+              onClick={handleCloseContactModal}
+              className="mt-4 w-full px-4 py-2 bg-[#001E3F] text-white rounded-md hover:bg-[#002a5c] transition-colors"
+            >
+              OK
+            </button>
+          </div>
+        </div>
       )}
     </div>
   );
