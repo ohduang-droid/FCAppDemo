@@ -22,7 +22,7 @@ export function MagnetTheater({ title, isPlaying, onTogglePlay, onScrollDown, be
     };
 
     return (
-        <div className="relative w-full h-screen bg-[#002349] overflow-hidden flex flex-col items-center justify-center text-white">
+        <div className="relative w-full h-screen bg-[#002349] overflow-hidden flex flex-col items-center justify-start text-white">
             {/* Background Texture (Noise) */}
             <div className="absolute inset-0 z-0 pointer-events-none opacity-[0.08] mix-blend-overlay"
                 style={{
@@ -56,7 +56,7 @@ export function MagnetTheater({ title, isPlaying, onTogglePlay, onScrollDown, be
             </div>
 
             {/* Main Content */}
-            <div className="relative z-10 flex flex-col items-center text-center space-y-8 px-6 max-w-lg">
+            <div className="relative z-10 flex flex-col items-center text-center space-y-8 px-6 max-w-lg pt-16 sm:pt-24">
 
                 {/* Dynamic Title */}
                 <motion.h1
