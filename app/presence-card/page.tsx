@@ -163,7 +163,7 @@ export default function NFCPage() {
         {/* Interaction Layer (Only active during reveal) */}
         <motion.div
           className="absolute inset-0 z-50 cursor-grab active:cursor-grabbing pointer-events-auto"
-          style={{ display: phase === 'reveal' ? 'block' : 'none' }}
+          style={{ display: phase === 'reveal' ? 'block' : 'none', top: '-16px' }}
           drag="y"
           dragConstraints={{ top: -200, bottom: 0 }}
           dragElastic={0.2}

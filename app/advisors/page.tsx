@@ -507,7 +507,7 @@ export default function AdvisorsPage() {
                   {/* Info - Right side */}
                   <div className="flex-1 min-w-0 p-3 sm:p-4 flex flex-col justify-center relative">
 
-                    {/* Header Row: Name & Button */}
+                    {/* Header Row: Name */}
                     <div className="flex justify-between items-start mb-1">
                       <div>
                         <h3 className="text-base sm:text-lg font-bold text-[#002349] font-serif-luxury line-clamp-1">
@@ -517,19 +517,19 @@ export default function AdvisorsPage() {
                           {advisor.title}
                         </p>
                       </div>
-
-                      {/* Contact Button (Top Right) */}
-                      <button
-                        className="flex items-center gap-1 px-2 py-1 rounded border border-[#B89B5E] text-[#B89B5E] text-[10px] uppercase tracking-wider hover:bg-[#B89B5E] hover:text-white transition-colors"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setShowContactModal(true);
-                        }}
-                      >
-                        <Mail className="w-3 h-3" />
-                        <span>Contact</span>
-                      </button>
                     </div>
+
+                    {/* Contact Button (Center Right) */}
+                    <button
+                      className="absolute right-3 sm:right-4 top-1/2 transform -translate-y-1/2 flex items-center gap-1 px-2 py-1 rounded border border-[#B89B5E] text-[#B89B5E] text-[10px] uppercase tracking-wider hover:bg-[#B89B5E] hover:text-white transition-colors"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setShowContactModal(true);
+                      }}
+                    >
+                      <Mail className="w-3 h-3" />
+                      <span>Contact</span>
+                    </button>
 
                     <div className="space-y-1.5 mt-2">
                       {/* Office */}
@@ -565,7 +565,10 @@ export default function AdvisorsPage() {
           onClick={() => setShowContactModal(false)}
         >
           <div
-            className="bg-white rounded-2xl px-8 py-6 shadow-2xl max-w-sm mx-4"
+            className="bg-white/80 backdrop-blur-[20px] rounded-2xl px-8 py-6 shadow-2xl max-w-sm mx-4 border border-white/20"
+            style={{
+              WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+            }}
             onClick={(e) => e.stopPropagation()}
           >
             <p className="text-lg font-semibold text-gray-900 text-center">

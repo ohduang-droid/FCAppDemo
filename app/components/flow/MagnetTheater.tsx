@@ -9,9 +9,11 @@ interface MagnetTheaterProps {
     isPlaying: boolean;
     onTogglePlay: () => void;
     onScrollDown: () => void;
+    benefits?: string[];
+    onFindAdvisor?: () => void;
 }
 
-export function MagnetTheater({ title, isPlaying, onTogglePlay, onScrollDown }: MagnetTheaterProps) {
+export function MagnetTheater({ title, isPlaying, onTogglePlay, onScrollDown, benefits, onFindAdvisor }: MagnetTheaterProps) {
     // Sonar Ring Animation
     const sonarTransition = {
         duration: 4,
@@ -89,14 +91,50 @@ export function MagnetTheater({ title, isPlaying, onTogglePlay, onScrollDown }: 
                     <div className="absolute inset-0 rounded-full border border-[#B89B5E] opacity-50 blur-[2px] animate-pulse group-hover:blur-[4px] transition-all" />
                 </motion.button>
 
-                <motion.p
-                    className="text-[#B89B5E] text-xs tracking-[0.2em] font-medium uppercase mt-4"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 0.8 }}
-                    transition={{ delay: 0.8 }}
-                >
-                    {isPlaying ? 'Listening...' : 'Listen to Introduction'}
-                </motion.p>
+                {/* Benefits Section ("You'll get") */}
+                {benefits && benefits.length > 0 && (
+                    <motion.div
+                        className="mt-12 bg-white/10 backdrop-blur-[20px] border border-white/20 rounded-lg p-6 max-w-md w-full"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.8, duration: 0.8 }}
+                    >
+                        <h2 className="font-serif-luxury text-xl text-center mb-6 text-white">
+                            You&apos;ll get:
+                        </h2>
+                        <ul className="space-y-3">
+                            {benefits.map((benefit, i) => (
+                                <motion.li
+                                    key={i}
+                                    initial={{ opacity: 0, x: -10 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    transition={{ delay: 0.9 + i * 0.1 }}
+                                    className="flex items-start space-x-3 text-sm font-light leading-relaxed text-white/90"
+                                >
+                                    <span className="text-[#B89B5E] mt-1.5 text-xs">◆</span>
+                                    <span>{benefit}</span>
+                                </motion.li>
+                            ))}
+                        </ul>
+                    </motion.div>
+                )}
+
+                {/* CTA: Find an Advisor */}
+                {onFindAdvisor && (
+                    <motion.div
+                        className="mt-8 w-full max-w-md"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 1.2, duration: 0.8 }}
+                    >
+                        <button
+                            onClick={onFindAdvisor}
+                            className="w-full py-4 px-8 bg-[#B89B5E] text-black font-medium text-sm tracking-[0.2em] uppercase hover:bg-[#a38850] transition-colors shadow-lg active:scale-[0.98] duration-200"
+                        >
+                            Find an Advisor
+                        </button>
+                    </motion.div>
+                )}
             </div>
 
             {/* Scroll Indicator */}
